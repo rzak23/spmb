@@ -26,7 +26,7 @@ class CreateTableKecamatan extends Migration
         ];
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('idkecamatan');
-        $this->forge->addForeignKey('idkabupaten', 'kabupaten', 'idkabupaten', 'no action', 'cascade', 'fk_kecamatan_kab');
+        $this->forge->addForeignKey('idkabupaten', 'tbl_kabupaten', 'idkabupaten', 'no action', 'cascade', 'fk_kecamatan_kab');
         $this->forge->createTable('tbl_kecamatan');
     }
 
