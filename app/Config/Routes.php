@@ -3,6 +3,7 @@
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Home;
 use App\Controllers\Kabupaten\KabupatenController;
+use App\Controllers\Kecamatan\KecamatanController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -22,4 +23,15 @@ $routes->group('kabupaten', function($routes){
     });
     $routes->get('edit/(:num)', [KabupatenController::class, 'form_ae']);
     $routes->get('hapus/(:num)', [KabupatenController::class, 'hapus_data']);
+});
+
+$routes->group('kecamatan', function($routes){
+    $routes->get('', [KecamatanController::class, 'index']);
+    $routes->get('add', [KecamatanController::class, 'form_ae']);
+    $routes->group('save', function($routes){
+        $routes->post('', [KecamatanController::class, 'save']);
+        $routes->post('(:num)', [KecamatanController::class, 'save']);
+    });
+    $routes->get('edit/(:num)', [KecamatanController::class, 'form_ae']);
+    $routes->get('hapus/(:num)', [KecamatanController::class, 'hapus_data']);
 });

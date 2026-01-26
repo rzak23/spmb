@@ -43,7 +43,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('') ?>" class="nav-link">
+                    <a href="<?= site_url('kecamatan') ?>" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Kecamatan</p>
                     </a>

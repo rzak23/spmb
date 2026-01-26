@@ -58,7 +58,6 @@ class KabupatenController extends BaseController
 
     private function add_data(): \CodeIgniter\HTTP\RedirectResponse
     {
-
         try{
             $kab = $this->request->getPost('kabupaten');
             $is_add = $this->kabupatenModel->insert([
