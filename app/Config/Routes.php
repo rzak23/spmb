@@ -16,4 +16,10 @@ $routes->get('dashboard', [Home::class, 'halaman_dashboard']);
 $routes->group('kabupaten', function($routes){
     $routes->get('', [KabupatenController::class, 'index']);
     $routes->get('add', [KabupatenController::class, 'form_ae']);
+    $routes->group('save', function($routes){
+        $routes->post('', [KabupatenController::class, 'save']);
+        $routes->post('(:num)', [KabupatenController::class, 'save']);
+    });
+    $routes->get('edit/(:num)', [KabupatenController::class, 'form_ae']);
+    $routes->get('hapus/(:num)', [KabupatenController::class, 'hapus_data']);
 });

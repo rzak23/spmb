@@ -30,8 +30,15 @@ class KabupatenModel extends Model
     protected $deletedField  = '';
 
     // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
+    protected $validationRules      = [
+        'kabupaten' => 'required|alpha'
+    ];
+    protected $validationMessages   = [
+        'kabupaten' => [
+            'required' => 'Wajib diisi',
+            'alpha' => 'Hanya bisa diisi dengan karakter huruf'
+        ]
+    ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
