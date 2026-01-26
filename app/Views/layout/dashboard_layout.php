@@ -85,5 +85,6 @@
 <script src="<?= base_url('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') ?>"></script>
 <!-- AdminLTE App -->
 <script src="<?= base_url('assets/dist/js/adminlte.js') ?>"></script>
+<?= $this->renderSection('content-js') ?>
 </body>
 </html>

@@ -4,6 +4,7 @@ use App\Controllers\Auth\LoginController;
 use App\Controllers\Home;
 use App\Controllers\Kabupaten\KabupatenController;
 use App\Controllers\Kecamatan\KecamatanController;
+use App\Controllers\Sekolah\SekolahController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -34,4 +35,14 @@ $routes->group('kecamatan', function($routes){
     });
     $routes->get('edit/(:num)', [KecamatanController::class, 'form_ae']);
     $routes->get('hapus/(:num)', [KecamatanController::class, 'hapus_data']);
+});
+
+$routes->group('sekolah', function($routes){
+    $routes->get('', [SekolahController::class, 'index']);
+    $routes->get('add', [SekolahController::class, 'form_ae']);
+});
+
+//----------------------- routes ajax --------------------------------//
+$routes->group('api', function($routes){
+    $routes->post('get-list-kecamatan', [KecamatanController::class, 'get_list_by_kabupaten']);
 });

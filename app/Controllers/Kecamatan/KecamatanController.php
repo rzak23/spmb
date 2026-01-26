@@ -127,4 +127,23 @@ class KecamatanController extends BaseController
         return redirect()->back()
             ->with('success', "Kecamatan {$kecamatan->kecamatan} berhasil dihapus");
     }
+
+    public function get_list_by_kabupaten(): ResponseInterface
+    {
+        $input = $this->request->getJSON();
+
+        $kab = $input->kabupaten;
+        $kecamatan = $this->kecamatanModel->where('idkabupaten', $kab)->findAll();
+        if(!isset($kecamatan)){
+            return $this->response->setJSON([
+                'data'  => null,
+                'msg'   => 'Data tidak ditemukan'
+            ])->setStatusCode(404);
+        }
+
+        return $this->response->setJSON([
+            'data'  => $kecamatan,
+            'msg'   => 'Data ditemukan, jumlah data '.count($kecamatan)
+        ])->setStatusCode(200);
+    }
 }

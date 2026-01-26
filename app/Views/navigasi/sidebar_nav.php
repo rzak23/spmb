@@ -49,7 +49,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('') ?>" class="nav-link">
+                    <a href="<?= site_url('sekolah') ?>" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Sekolah</p>
                     </a>
