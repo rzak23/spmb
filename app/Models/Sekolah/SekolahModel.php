@@ -13,7 +13,7 @@ class SekolahModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'idkabupaten', 'idkecamatan', 'sekolah', 'alamat'
+        'idkabupaten', 'idkecamatan', 'sekolah', 'alamat', 'status'
     ];
 
     protected bool $allowEmptyInserts = false;

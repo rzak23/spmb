@@ -72,13 +72,15 @@ class SekolahController extends BaseController
             $npsn       = $this->request->getPost('npsn');
             $sekolah    = $this->request->getPost('sekolah');
             $alamat     = $this->request->getPost('alamat');
+            $status     = $this->request->getPost('status');
 
             $is_save = $this->sekolahModel->insert([
                 'npsn'          => $npsn,
                 'idkabupaten'   => $kab,
                 'idkecamatan'   => $kec,
                 'sekolah'       => $sekolah,
-                'alamat'        => $alamat
+                'alamat'        => $alamat,
+                'status'        => $status
             ]);
             if(!$is_save){
                 return redirect()->back()
@@ -106,12 +108,14 @@ class SekolahController extends BaseController
             $kec        = $this->request->getPost('kecamatan');
             $sekolah    = $this->request->getPost('sekolah');
             $alamat     = $this->request->getPost('alamat');
+            $status     = $this->request->getPost('status');
 
             $is_update = $this->sekolahModel->update($sekolah_data->npsn, [
                 'idkabupaten'   => $kab,
                 'idkecamatan'   => $kec,
                 'sekolah'       => $sekolah,
-                'alamat'        => $alamat
+                'alamat'        => $alamat,
+                'status'        => $status
             ]);
             if(!$is_update){
                 return redirect()->back()

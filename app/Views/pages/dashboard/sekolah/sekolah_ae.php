@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6 col-12">
+                                <div class="col-lg-4 col-12">
                                     <div class="form-group">
                                         <label for="npsn">NPSN</label>
                                         <?php if(session()->has('validasi') && isset(session('validasi')['npsn'])): ?>
@@ -60,13 +60,24 @@
                                         <input type="text" name="npsn" class="form-control" id="npsn" value="<?= ($mode == 'edit') ? $data->npsn : '' ?>" autocomplete="off" required <?= ($mode == 'edit') ? 'readonly' : '' ?>>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-12">
+                                <div class="col-lg-4 col-12">
                                     <div class="form-group">
                                         <label for="sekolah">Sekolah</label>
                                         <?php if(session()->has('validasi') && isset(session('validasi')['sekolah'])): ?>
                                         <small class="text-danger"><?= session('validasi')['sekolah'] ?></small>
                                         <?php endif ?>
                                         <input type="text" name="sekolah" class="form-control" id="sekolah" value="<?= ($mode == 'edit') ? $data->sekolah : '' ?>" autocomplete="off" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-12">
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select name="status" class="form-control" id="status">
+                                            <option value="">--- Pilih Status ---</option>
+                                            <?php foreach(\App\Utils\Options::$status_sekolah as $row => $key): ?>
+                                            <option value="<?= $row ?>" <?= ($mode == 'edit' && $row == $data->status) ? 'selected' : '' ?>><?= $key ?></option>
+                                            <?php endforeach ?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
