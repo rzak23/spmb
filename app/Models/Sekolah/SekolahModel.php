@@ -30,8 +30,24 @@ class SekolahModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
+    protected $validationRules      = [
+        'sekolah'   => 'required|alpha_numeric_space',
+        'alamat'    => 'required',
+        'npsn'      => 'required|numeric'
+    ];
+    protected $validationMessages   = [
+        'sekolah' => [
+            'required'              => 'Wajib diisi',
+            'alpha_numeric_space'   => "Hanya bisa diisi dengan huruf, angka dan spasi"
+        ],
+        'alamat' => [
+            'required'  => 'Wajib diisi'
+        ],
+        'npsn' => [
+            'required'  => 'Wajib diisi',
+            'npsn'      => 'Hanya bisa diisi dengan angka'
+        ]
+    ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 

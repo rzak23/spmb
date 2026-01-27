@@ -1,3 +1,13 @@
+<?php
+/**
+ * @var string $title
+ * @var string $action
+ * @var string $mode
+ * @var object $kabupaten
+ * @var object $data
+ */
+?>
+
 <?= $this->extend('layout/dashboard_layout') ?>
 
 <?= $this->section('content') ?>
@@ -8,6 +18,9 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
+                    <?php if(session()->has('error')): ?>
+                    <div class="alert alert-danger"><?= session('error') ?></div>
+                    <?php endif ?>
                     <div class="card">
                         <div class="card-header">
                             <h6 class="card-title"><?= $title ?></h6>
@@ -21,7 +34,7 @@
                                         <select name="kabupaten" class="form-control" id="kabupaten" onchange="onClickKabupaten()">
                                             <option>--- Pilih Kabupaten ---</option>
                                             <?php foreach($kabupaten as $row): ?>
-                                            <option value="<?= $row->idkabupaten ?>">
+                                            <option value="<?= $row->idkabupaten ?>" <?= ($mode == 'edit' && $row->idkabupaten == $data->idkabupaten) ? 'selected' : '' ?>>
                                                 <?= $row->kabupaten ?>
                                             </option>
                                             <?php endforeach ?>
@@ -41,19 +54,28 @@
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
                                         <label for="npsn">NPSN</label>
-                                        <input type="text" name="npsn" class="form-control" id="npsn" autocomplete="off" required>
+                                        <?php if(session()->has('validasi') && isset(session('validasi')['npsn'])): ?>
+                                        <small class="text-danger"><?= session('validasi')['npsn'] ?></small>
+                                        <?php endif ?>
+                                        <input type="text" name="npsn" class="form-control" id="npsn" value="<?= ($mode == 'edit') ? $data->npsn : '' ?>" autocomplete="off" required <?= ($mode == 'edit') ? 'readonly' : '' ?>>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
                                         <label for="sekolah">Sekolah</label>
-                                        <input type="text" name="sekolah" class="form-control" id="sekolah" autocomplete="off" required>
+                                        <?php if(session()->has('validasi') && isset(session('validasi')['sekolah'])): ?>
+                                        <small class="text-danger"><?= session('validasi')['sekolah'] ?></small>
+                                        <?php endif ?>
+                                        <input type="text" name="sekolah" class="form-control" id="sekolah" value="<?= ($mode == 'edit') ? $data->sekolah : '' ?>" autocomplete="off" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="alamat">Alamat</label>
-                                <textarea name="alamat" class="form-control" id="alamat" required></textarea>
+                                <?php if(session()->has('validasi') && isset(session('validasi')['alamat'])): ?>
+                                <small class="text-danger"><?= session('validasi')['alamat'] ?></small>
+                                <?php endif ?>
+                                <textarea name="alamat" class="form-control" id="alamat" required><?= ($mode == 'edit') ? $data->alamat : '' ?></textarea>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-sm btn-success">
@@ -77,6 +99,13 @@
 
 <?= $this->section('content-js') ?>
 <script>
+    <?php if($mode == 'edit'): ?>
+    window.addEventListener('load', async function(){
+        await onClickKabupaten();
+        document.getElementById('kecamatan').value = '<?= $data->idkecamatan ?>';
+    })
+    <?php endif ?>
+
     async function onClickKabupaten(){
         let kabSelect = document.getElementById('kabupaten').value;
 

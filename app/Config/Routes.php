@@ -40,6 +40,12 @@ $routes->group('kecamatan', function($routes){
 $routes->group('sekolah', function($routes){
     $routes->get('', [SekolahController::class, 'index']);
     $routes->get('add', [SekolahController::class, 'form_ae']);
+    $routes->group('save', function($routes){
+        $routes->post('', [SekolahController::class, 'save']);
+        $routes->post('(:num)', [SekolahController::class, 'save']);
+    });
+    $routes->get('edit/(:num)', [SekolahController::class, 'form_ae']);
+    $routes->get('hapus/(:num)', [SekolahController::class, 'hapus_data']);
 });
 
 //----------------------- routes ajax --------------------------------//
