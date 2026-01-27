@@ -34,7 +34,7 @@ class GuruModel extends Model
     protected $validationRules      = [
         'idsekolah' => 'required',
         'nip'       => 'permit_empty|numeric',
-        'nama_guru' => 'required|alpha_space',
+        'nama_guru' => 'required|alpha_numeric_punct',
         'telepon'   => 'required|numeric',
         'username'  => 'required|min_length[4]|max_length[15]',
         'password'  => 'required|min_length[8]|max_length[20]',
@@ -48,8 +48,8 @@ class GuruModel extends Model
             'numeric'   => 'Hanya bisa diisi dengan angka'
         ],
         'nama_guru' => [
-            'required'      => 'Wajib diisi',
-            'alpha_space'   => 'Hanya bisa diisi dengan huruf dan karakter spasi'
+            'required'              => 'Wajib diisi',
+            'alpha_numeric_punct'   => 'Hanya bisa diisi dengan huruf, karakter spasi, titik'
         ],
         'telepon'   => [
             'required'  => 'Wajib diisi',
