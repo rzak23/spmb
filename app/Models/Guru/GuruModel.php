@@ -31,8 +31,44 @@ class GuruModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
-    protected $validationMessages   = [];
+    protected $validationRules      = [
+        'idsekolah' => 'required',
+        'nip'       => 'permit_empty|numeric',
+        'nama_guru' => 'required|alpha_space',
+        'telepon'   => 'required|numeric',
+        'username'  => 'required|min_length[4]|max_length[15]',
+        'password'  => 'required|min_length[8]|max_length[20]',
+        'alamat'    => 'required'
+    ];
+    protected $validationMessages   = [
+        'idsekolah' => [
+            'required'  => 'Wajib diisi'
+        ],
+        'nip'       => [
+            'numeric'   => 'Hanya bisa diisi dengan angka'
+        ],
+        'nama_guru' => [
+            'required'      => 'Wajib diisi',
+            'alpha_space'   => 'Hanya bisa diisi dengan huruf dan karakter spasi'
+        ],
+        'telepon'   => [
+            'required'  => 'Wajib diisi',
+            'numeric'   => 'Hanya bisa diisi dengan angka'
+        ],
+        'username'  => [
+            'required'      => 'Wajib diisi',
+            'min_length'    => 'Minimal 4 karakter',
+            'max_length'    => 'Maksimal 15 karakter'
+        ],
+        'password'  => [
+            'required'      => 'Wajib diisi',
+            'min_length'    => 'Minimal 8 karakter',
+            'max_length'    => 'Maksimal 20 karakter'
+        ],
+        'alamat'    => [
+            'required'  => 'Wajib diisi'
+        ]
+    ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 

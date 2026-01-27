@@ -30,6 +30,9 @@
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
                                         <label for="sekolah">Sekolah</label>
+                                        <?php if(session()->has('validasi') && isset(session('validasi')['idsekolah'])): ?>
+                                        <small class="text-danger"><?= session('validasi')['idsekolah'] ?></small>
+                                        <?php endif ?>
                                         <select name="sekolah" class="form-control" id="sekolah">
                                             <option>--- Pilih Sekolah ---</option>
                                             <?php foreach($sekolah as $row): ?>
@@ -43,36 +46,54 @@
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
                                         <label for="nip">NIP</label>
+                                        <?php if(session()->has('validasi') && isset(session('validasi')['nip'])): ?>
+                                        <small class="text-danger"><?= session('validasi')['nip'] ?></small>
+                                        <?php endif ?>
                                         <input type="text" name="nip" class="form-control" id="nip" value="<?= ($mode == 'edit') ? $data->nip : '' ?>" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="nama">Nama</label>
+                                <?php if(session()->has('validasi') && isset(session('validasi')['nama_guru'])): ?>
+                                <small class="text-danger"><?= session('validasi')['nama_guru'] ?></small>
+                                <?php endif ?>
                                 <input type="text" name="nama" class="form-control" id="nama" value="<?= ($mode == 'edit') ? $data->nama_guru : '' ?>" autocomplete="off" required>
                             </div>
                             <div class="row">
                                 <div class="col-lg-4 col-12">
                                     <div class="form-group">
                                         <label for="telepon">Telepon</label>
+                                        <?php if(session()->has('validasi') && isset(session('validasi')['telepon'])): ?>
+                                        <small class="text-danger"><?= session('validasi')['telepon'] ?></small>
+                                        <?php endif ?>
                                         <input type="text" name="telepon" class="form-control" id="telepon" value="<?= ($mode == 'edit') ? $data->telepon : '' ?>" autocomplete="off" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-12">
                                     <div class="form-group">
                                         <label for="username">Username</label>
+                                        <?php if(session()->has('validasi') && isset(session('validasi')['username'])): ?>
+                                        <small class="text-danger"><?= session('validasi')['username'] ?></small>
+                                        <?php endif ?>
                                         <input type="text" name="username" class="form-control" id="username" value="<?= ($mode == 'edit') ? $data->username : '' ?>" autocomplete="off" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-12">
                                     <div class="form-group">
                                         <label for="pass">Password</label>
+                                        <?php if(session()->has('validasi') && isset(session('validasi')['password'])): ?>
+                                        <small class="text-danger"><?= session('validasi')['password'] ?></small>
+                                        <?php endif ?>
                                         <input type="password" name="pass" class="form-control" id="pass" <?= ($mode == 'add') ? 'required' : '' ?>>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="alamat">Alamat</label>
+                                <?php if(session()->has('validasi') && isset(session('validasi')['alamat'])): ?>
+                                <small class="text-danger"><?= session('validasi')['alamat'] ?></small>
+                                <?php endif ?>
                                 <textarea name="alamat" class="form-control" id="alamat"><?= ($mode == 'edit') ? $data->alamat : '' ?></textarea>
                             </div>
                             <div class="form-group">
