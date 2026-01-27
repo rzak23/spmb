@@ -56,7 +56,7 @@
                 </li>
                 <li class="nav-header">DATA SEKOLAH</li>
                 <li class="nav-item">
-                    <a href="<?= site_url('') ?>" class="nav-link">
+                    <a href="<?= site_url('guru') ?>" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Petugas Sekolah</p>
                     </a>

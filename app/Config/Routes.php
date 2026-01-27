@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\Auth\LoginController;
+use App\Controllers\Guru\GuruController;
 use App\Controllers\Home;
 use App\Controllers\Kabupaten\KabupatenController;
 use App\Controllers\Kecamatan\KecamatanController;
@@ -46,6 +47,17 @@ $routes->group('sekolah', function($routes){
     });
     $routes->get('edit/(:num)', [SekolahController::class, 'form_ae']);
     $routes->get('hapus/(:num)', [SekolahController::class, 'hapus_data']);
+});
+
+$routes->group('guru', function($routes){
+    $routes->get('', [GuruController::class, 'index']);
+    $routes->get('add', [GuruController::class, 'form_ae']);
+    $routes->group('save', function($routes){
+        $routes->post('', [GuruController::class, 'save']);
+        $routes->post('(:num)', [GuruController::class, 'save']);
+    });
+    $routes->get('edit/(:num)', [GuruController::class, 'form_ae']);
+    $routes->get('hapus/(:num)', [GuruController::class, 'hapus_data']);
 });
 
 //----------------------- routes ajax --------------------------------//
