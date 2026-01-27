@@ -1,3 +1,12 @@
+<?php
+/**
+ * @var string $title
+ * @var string $action
+ * @var string $mode
+ * @var object $sekolah
+ * @var object $data
+ */
+?>
 <?= $this->extend('layout/dashboard_layout') ?>
 
 <?= $this->section('content') ?>
