@@ -6,6 +6,7 @@ use App\Controllers\Home;
 use App\Controllers\Kabupaten\KabupatenController;
 use App\Controllers\Kecamatan\KecamatanController;
 use App\Controllers\Sekolah\SekolahController;
+use App\Controllers\Siswa\SiswaController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -58,6 +59,14 @@ $routes->group('guru', function($routes){
     });
     $routes->get('edit/(:num)', [GuruController::class, 'form_ae']);
     $routes->get('hapus/(:num)', [GuruController::class, 'hapus_data']);
+});
+
+$routes->group('siswa', function($routes){
+    $routes->get('', [SiswaController::class, 'index']);
+    $routes->get('add', [SiswaController::class, 'form_ae']);
+    $routes->group('save', function($routes){
+        $routes->post('', [SiswaController::class, 'save']);
+    });
 });
 
 //----------------------- routes ajax --------------------------------//

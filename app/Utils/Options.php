@@ -7,4 +7,9 @@ class Options{
         '1' => 'Negeri',
         '2' => 'Swasta'
     ];
+
+    public static array $status_siswa = [
+        'wni' => 'Warga Negara Indonesia',
+        'wna' => 'Warna Negara Asing'
+    ];
 }

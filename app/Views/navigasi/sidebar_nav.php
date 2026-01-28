@@ -35,6 +35,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
+                <?php if(session()->get('is_admin')): ?>
                 <li class="nav-header">DATA MASTER</li>
                 <li class="nav-item">
                     <a href="<?= site_url('kabupaten') ?>" class="nav-link">
@@ -62,11 +63,21 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url('') ?>" class="nav-link">
+                    <a href="<?= site_url('siswa') ?>" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Daftar Siswa</p>
                     </a>
                 </li>
+                <?php endif ?>
+
+                <?php if(!session()->get('is_admin')): ?>
+                    <li class="nav-item">
+                        <a href="<?= site_url('siswa') ?>" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>Daftar Siswa</p>
+                        </a>
+                    </li>
+                <?php endif ?>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

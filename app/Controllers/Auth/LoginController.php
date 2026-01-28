@@ -3,7 +3,9 @@
 namespace App\Controllers\Auth;
 
 use App\Controllers\BaseController;
+use App\Libraries\Auth;
 use App\Models\Admin\AdminModel;
+use App\Models\Guru\GuruModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class LoginController extends BaseController
@@ -11,22 +13,21 @@ class LoginController extends BaseController
     public function login_proses(): \CodeIgniter\HTTP\RedirectResponse
     {
         $admin_model = new AdminModel();
+        $guru_model = new GuruModel();
 
         try{
             $username = $this->request->getPost('username');
             $password = $this->request->getPost('password');
 
-            $admin = $admin_model->where('username', $username)->first();
-            if(!isset($admin)){
+            $login = Auth::login_act($username, $password);
+            if(!$login->status){
                 return redirect()->back()
-                    ->with('error', 'Pengguna tidak terdaftar');
+                    ->with('error', $login->msg);
             }
 
-            if(!password_verify($password, $admin->password)){
-                return redirect()->back()
-                    ->with('error', 'Kombinasi password salah');
-            }
-
+            $sess_data = $login->data;
+            session()->set('id', $sess_data['id']);
+            session()->set('is_admin', $sess_data['is_admin']);
             return redirect()->to('dashboard')
                 ->with('success', 'Login berhasil');
         }catch(\Exception $e){
