@@ -16,8 +16,8 @@ $routes->get('/', [Home::class, 'index']);
 $routes->post('login', [LoginController::class, 'login_proses']);
 $routes->get('logout', [LoginController::class, 'logout_proses']);
 
-$routes->get('dashboard', [Home::class, 'halaman_dashboard']);
-$routes->group('kabupaten', function($routes){
+$routes->get('dashboard', [Home::class, 'halaman_dashboard'], ['filter' => 'auth']);
+$routes->group('kabupaten', ['filter' => 'auth'], function($routes){
     $routes->get('', [KabupatenController::class, 'index']);
     $routes->get('add', [KabupatenController::class, 'form_ae']);
     $routes->group('save', function($routes){
@@ -28,7 +28,7 @@ $routes->group('kabupaten', function($routes){
     $routes->get('hapus/(:num)', [KabupatenController::class, 'hapus_data']);
 });
 
-$routes->group('kecamatan', function($routes){
+$routes->group('kecamatan', ['filter' => 'auth'], function($routes){
     $routes->get('', [KecamatanController::class, 'index']);
     $routes->get('add', [KecamatanController::class, 'form_ae']);
     $routes->group('save', function($routes){
@@ -39,7 +39,7 @@ $routes->group('kecamatan', function($routes){
     $routes->get('hapus/(:num)', [KecamatanController::class, 'hapus_data']);
 });
 
-$routes->group('sekolah', function($routes){
+$routes->group('sekolah', ['filter' => 'auth'], function($routes){
     $routes->get('', [SekolahController::class, 'index']);
     $routes->get('add', [SekolahController::class, 'form_ae']);
     $routes->group('save', function($routes){
@@ -50,7 +50,7 @@ $routes->group('sekolah', function($routes){
     $routes->get('hapus/(:num)', [SekolahController::class, 'hapus_data']);
 });
 
-$routes->group('guru', function($routes){
+$routes->group('guru', ['filter' => 'auth'], function($routes){
     $routes->get('', [GuruController::class, 'index']);
     $routes->get('add', [GuruController::class, 'form_ae']);
     $routes->group('save', function($routes){
@@ -61,7 +61,7 @@ $routes->group('guru', function($routes){
     $routes->get('hapus/(:num)', [GuruController::class, 'hapus_data']);
 });
 
-$routes->group('siswa', function($routes){
+$routes->group('siswa', ['filter' => 'auth'], function($routes){
     $routes->get('', [SiswaController::class, 'index']);
     $routes->get('add', [SiswaController::class, 'form_ae']);
     $routes->group('save', function($routes){

@@ -38,6 +38,8 @@ class LoginController extends BaseController
 
     public function logout_proses(): \CodeIgniter\HTTP\RedirectResponse
     {
+        session()->remove('id');
+        session()->remove('is_admin');
         return redirect()->to('/')
             ->with('success', 'Berhasil keluar dari sistem');
     }
