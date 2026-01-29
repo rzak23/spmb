@@ -3,8 +3,10 @@
 namespace App\Controllers\Siswa;
 
 use App\Controllers\BaseController;
+use App\Models\Siswa\SiswaFailModel;
 use App\Models\Siswa\SiswaModel;
 use CodeIgniter\HTTP\ResponseInterface;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class SiswaController extends BaseController
 {
@@ -91,5 +93,106 @@ class SiswaController extends BaseController
             return redirect()->back()
                 ->with('error', $e->getMessage());
         }
+    }
+
+    public function page_import(): string
+    {
+        helper('form');
+
+        return view('pages/dashboard/siswa/siswa_batch');
+    }
+
+    public function proses_import(): \CodeIgniter\HTTP\RedirectResponse
+    {
+        $validation_rule = [
+            'filesiswa'    => [
+                'label'     => 'List Data Siswa',
+                'rules'     => [
+                    'uploaded[filesiswa]',
+                    'mime_in[filesiswa, application/vnd.ms-excel]'
+                ]
+            ]
+        ];
+        if(!$this->validateData([], $validation_rule)){
+            return redirect()->back()
+                ->with('error', $this->validator->getErrors());
+        }
+
+        try{
+            $guru_data = auth()->get_guru(session()->get('id'));
+
+            $file = $this->request->getFile('filesiswa');
+            $new_file_name = "{$guru_data->idsekolah}_{$file->getRandomName()}";
+            if(!$file->hasMoved()){
+                $file->move(WRITEPATH.'uploads/siswa', $new_file_name);
+            }
+
+            $reader_excel = new Xlsx();
+
+            $file_path      = WRITEPATH."uploads/siswa/{$new_file_name}";
+            $spread_sheet   = $reader_excel->load($file_path);
+            $sheet          = $spread_sheet->getActiveSheet()->toArray(null, true, true, true);
+            $num_row        = 1;
+            $total_fail     = 0;
+            foreach($sheet as $row){
+                // lewatkan baris pertama
+                if($num_row > 1){
+                    $nip                = $row['A'];
+                    $no_kk              = $row['B'];
+                    $no_pkh             = $row['C'];
+                    $no_pip             = $row['D'];
+                    $nama_siswa         = $row['E'];
+                    $tempat_lahir       = $row['F'];
+                    $tanggal_lahir      = $row['G'];
+                    $alamat             = $row['H'];
+                    $jk                 = $row['I'];
+                    $status_warganegara = $row['J'];
+
+                    $data = [
+                        'nip'           => $nip,
+                        'npsn'          => $guru_data->idsekolah,
+                        'nomor_kk'      => $no_kk,
+                        'nomor_pkh'     => ($no_pkh == '') ? null : $no_pkh,
+                        'nomor_pip'     => ($no_pip == '') ? null : $no_pip,
+                        'nama_siswa'    => $nama_siswa,
+                        'tempat_lahir'  => $tempat_lahir,
+                        'tanggal_lahir' => $tanggal_lahir,
+                        'alamat'        => $alamat,
+                        'jk'            => $jk,
+                        'status'        => $status_warganegara
+                    ];
+                    $is_insert = $this->siswaModel->insert($data);
+                    if(!$is_insert){
+                        $data['json_fail'] = json_encode($this->siswaModel->errors());
+                        $total_fail++;
+                        $this->insert_fail_import($data);
+                    }
+                }
+
+                $num_row++;
+            }
+
+            unlink($file_path);
+
+            $msg = "Data berhasil diimport";
+            if($total_fail > 0){
+                $msg = "Data berhasil diimport, namun ada beberapa data yang tidak valid, cek dan perbaiki data yang tidak valid";
+            }
+
+            return redirect()->to('siswa/batch')
+                ->with('succes', $msg);
+        }catch(\Exception $e){
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
+    }
+
+    private function insert_fail_import(array $data): void
+    {
+        try{
+            $fail_model = new SiswaFailModel();
+
+            $fail_model->insert($data);
+        }catch(\Exception $e){}
     }
 }

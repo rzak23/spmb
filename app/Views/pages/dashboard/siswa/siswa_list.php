@@ -29,7 +29,7 @@
                                     <span>Tambah</span>
                                     <i class="fas fa-plus"></i>
                                 </a>
-                                <a href="" class="btn btn-sm btn-primary">
+                                <a href="<?= site_url('siswa/batch') ?>" class="btn btn-sm btn-primary">
                                     <span>Import File Excel</span>
                                     <i class="fas fa-file-excel"></i>
                                 </a>
@@ -58,7 +58,14 @@
                                         <td class="<?= ($row->is_verify) ? 'bg-success' : 'bg-danger' ?>">
                                             <?= ($row->is_verify) ? 'Sudah Diverifikasi' : 'Belum Diverifikasi' ?>
                                         </td>
-                                        <td class="text-center"></td>
+                                        <td class="text-center">
+                                            <a href="<?= site_url('siswa/edit/'.$row->idsiswa) ?>" class="btn btn-sm btn-info">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="<?= site_url('siswa/hapus/'.$row->idsiswa) ?>" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
                                     </tr>
                                 <?php endforeach ?>
                                 </tbody>
