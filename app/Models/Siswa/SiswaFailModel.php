@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class SiswaFailModel extends Model
 {
-    protected $table            = 'tbl_siswa';
+    protected $table            = 'tbl_siswa_fail';
     protected $primaryKey       = 'idfail';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';

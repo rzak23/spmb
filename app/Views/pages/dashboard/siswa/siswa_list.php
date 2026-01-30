@@ -35,7 +35,7 @@
                                 </a>
                             </div>
                             <?php endif ?>
-                        </div>
+a                        </div>
                         <div class="card-body">
                             <table class="table table-bordered table-striped">
                                 <thead>

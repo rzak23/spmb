@@ -98,24 +98,37 @@ class SiswaController extends BaseController
     public function page_import(): string
     {
         helper('form');
+        $fail_model = new SiswaFailModel();
 
-        return view('pages/dashboard/siswa/siswa_batch');
+        $guru = auth()->get_guru(session('id'));
+        $fail = $fail_model->where('npsn', $guru->idsekolah)
+            ->findAll();
+        $data = [
+            'data' => $fail
+        ];
+        return view('pages/dashboard/siswa/siswa_batch', $data);
+    }
+
+    public function download_template(): ?\CodeIgniter\HTTP\DownloadResponse
+    {
+        $file_path = WRITEPATH.'/uploads/template/form_import_siswa.xlsx';
+        return $this->response->download($file_path, null);
     }
 
     public function proses_import(): \CodeIgniter\HTTP\RedirectResponse
     {
         $validation_rule = [
             'filesiswa'    => [
-                'label'     => 'List Data Siswa',
+                'label'     => 'File Excel',
                 'rules'     => [
                     'uploaded[filesiswa]',
-                    'mime_in[filesiswa, application/vnd.ms-excel]'
+                    'ext_in[filesiswa,xls,xlsx]'
                 ]
             ]
         ];
         if(!$this->validateData([], $validation_rule)){
             return redirect()->back()
-                ->with('error', $this->validator->getErrors());
+                ->with('validasi', $this->validator->getErrors());
         }
 
         try{
@@ -145,8 +158,8 @@ class SiswaController extends BaseController
                     $tempat_lahir       = $row['F'];
                     $tanggal_lahir      = $row['G'];
                     $alamat             = $row['H'];
-                    $jk                 = $row['I'];
-                    $status_warganegara = $row['J'];
+                    $jk                 = strtolower($row['I']);
+                    $status_warganegara = strtolower($row['J']);
 
                     $data = [
                         'nip'           => $nip,
@@ -180,7 +193,7 @@ class SiswaController extends BaseController
             }
 
             return redirect()->to('siswa/batch')
-                ->with('succes', $msg);
+                ->with('success', $msg);
         }catch(\Exception $e){
             return redirect()->back()
                 ->with('error', $e->getMessage());

@@ -67,6 +67,9 @@ $routes->group('siswa', ['filter' => 'auth'], function($routes){
     $routes->group('save', function($routes){
         $routes->post('', [SiswaController::class, 'save']);
     });
+    $routes->get('batch', [SiswaController::class, 'page_import']);
+    $routes->get('download-template', [SiswaController::class, 'download_template']);
+    $routes->post('proses-batch', [SiswaController::class, 'proses_import']);
 });
 
 //----------------------- routes ajax --------------------------------//
