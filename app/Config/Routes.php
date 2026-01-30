@@ -75,4 +75,5 @@ $routes->group('siswa', ['filter' => 'auth'], function($routes){
 //----------------------- routes ajax --------------------------------//
 $routes->group('api', function($routes){
     $routes->post('get-list-kecamatan', [KecamatanController::class, 'get_list_by_kabupaten']);
+    $routes->get('show-error-import/(:num)', [SiswaController::class, 'get_detail_error']);
 });

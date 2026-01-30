@@ -208,4 +208,22 @@ class SiswaController extends BaseController
             $fail_model->insert($data);
         }catch(\Exception $e){}
     }
+
+    public function get_detail_error(int $id): ResponseInterface
+    {
+        $fail_model = new SiswaFailModel();
+
+        $fail = $fail_model->find($id);
+        if(!isset($fail)){
+            return $this->response->setJSON([
+                'msg'   => 'Data tidak ditemukan',
+                'data'  => null
+            ]);
+        }
+
+        return $this->response->setJSON([
+            'msg'   => 'Data ditemukan',
+            'data'  => $fail
+        ]);
+    }
 }

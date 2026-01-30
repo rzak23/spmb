@@ -69,6 +69,9 @@
                                     <td><?= $row->nip ?></td>
                                     <td><?= $row->nama_siswa ?></td>
                                     <td class="text-center">
+                                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#error-detail" onclick="show_error(<?= $row->idfail ?>)">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </button>
                                         <a href="<?= site_url('siswa/edit/'.$row->idfail) ?>" class="btn btn-sm btn-info">
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -81,7 +84,50 @@
                     </div>
                 </div>
             </div>
+
+            <!-- modal show error -->
+            <div class="modal fade" role="dialog" id="error-detail">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h6 class="modal-title">Daftar Kesalahan</h6>
+                        </div>
+                        <div class="modal-body">
+                            <label for="err-detail">Data yang perlu diperbaiki</label>
+                            <textarea name="err-detail" class="form-control" id="err-detail" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- modal show error -->
         </div>
     </section>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('content-js') ?>
+<script>
+    async function show_error(id){
+        let url = `<?= site_url('api/show-error-import') ?>/${id}`;
+        const headers = {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+
+        let response = await fetch(url, {
+            method: 'GET',
+            headers: headers
+        });
+
+        let code = response.status;
+        let res = await response.json();
+        if(code !== 200){
+            window.alert(res['msg']);
+            return;
+        }
+
+        let data = res['data'];
+        document.getElementById('err-detail').value = data['json_fail'];
+    }
+</script>
 <?= $this->endSection() ?>
