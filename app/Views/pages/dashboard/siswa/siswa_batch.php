@@ -72,7 +72,7 @@
                                         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#error-detail" onclick="show_error(<?= $row->idfail ?>)">
                                             <i class="fas fa-exclamation-triangle"></i>
                                         </button>
-                                        <a href="<?= site_url('siswa/edit/'.$row->idfail) ?>" class="btn btn-sm btn-info">
+                                        <a href="<?= site_url('siswa/edit/'.$row->idfail.'/fixed') ?>" class="btn btn-sm btn-info">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                     </td>

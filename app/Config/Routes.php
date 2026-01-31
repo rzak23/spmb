@@ -66,7 +66,10 @@ $routes->group('siswa', ['filter' => 'auth'], function($routes){
     $routes->get('add', [SiswaController::class, 'form_ae']);
     $routes->group('save', function($routes){
         $routes->post('', [SiswaController::class, 'save']);
+        $routes->post('(:num)', [SiswaController::class, 'save']);
     });
+    $routes->get('edit/(:num)', [SiswaController::class, 'form_ae']);
+    $routes->get('edit/(:num)/(:alpha)', [SiswaController::class, 'form_ae']);
     $routes->get('batch', [SiswaController::class, 'page_import']);
     $routes->get('download-template', [SiswaController::class, 'download_template']);
     $routes->post('proses-batch', [SiswaController::class, 'proses_import']);

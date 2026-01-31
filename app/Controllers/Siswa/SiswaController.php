@@ -5,6 +5,7 @@ namespace App\Controllers\Siswa;
 use App\Controllers\BaseController;
 use App\Models\Siswa\SiswaFailModel;
 use App\Models\Siswa\SiswaModel;
+use Carbon\Carbon;
 use CodeIgniter\HTTP\ResponseInterface;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
@@ -35,22 +36,57 @@ class SiswaController extends BaseController
         return view('pages/dashboard/siswa/siswa_list', $data);
     }
 
-    public function form_ae(?int $id = null){
+    public function form_ae(?int $id = null, ?string $fixed = null): string|\CodeIgniter\HTTP\RedirectResponse
+    {
         helper('form');
+        $fail_model = new SiswaFailModel();
 
         $guru = auth()->get_guru(session()->get('id'));
         $data = [];
 
-        $data['title'] = 'Tambah Siswa';
-        $data['action'] = 'siswa/save';
-        $data['npsn'] = $guru->idsekolah;
+        if(is_null($id)){
+            $data['title']  = 'Tambah Siswa';
+            $data['action'] = 'siswa/save';
+            $data['npsn']   = $guru->idsekolah;
+            $data['mode']   = 'add';
+        }else{
+            if(!is_null($fixed)){
+                $siswa_fail = $fail_model->find($id);
+                if(!isset($siswa_fail)){
+                    return redirect()->back()
+                        ->with('error', 'Data tidak ditemukan');
+                }
+
+                $data['title']  = 'Perbaikan Data Siswa';
+                $data['action'] = 'siswa/save?fixed=true';
+                $data['npsn']   = $siswa_fail->npsn;
+                $data['mode']   = 'fixed';
+                $data['data']   = $siswa_fail;
+            }else{
+                $siswa = $this->siswaModel->find($id);
+                if(!isset($siswa)){
+                    return redirect()->back()
+                        ->with('error', 'Data tidak ditemukan');
+                }
+
+                $data['title']  = 'Edit Data Siswa';
+                $data['action'] = 'siswa/save/'.$id;
+                $data['npsn']   = $siswa->npsn;
+                $data['mode']   = 'edit';
+                $data['data']   = $siswa;
+            }
+        }
+
         return view('pages/dashboard/siswa/siswa_ae', $data);
     }
 
-    public function save(?int $id = null){
+    public function save(?int $id = null): \CodeIgniter\HTTP\RedirectResponse
+    {
         if(is_null($id)){
             return $this->add_data();
         }
+
+        return $this->update_data($id);
     }
 
     private function add_data(): \CodeIgniter\HTTP\RedirectResponse
@@ -69,7 +105,7 @@ class SiswaController extends BaseController
 
         try{
             $data = [
-                'nip'           => $nip,
+                'nip'           => ($nip == "") ? null : $nip,
                 'npsn'          => $npsn,
                 'nomor_kk'      => $kk,
                 'nomor_pkh'     => ($pkh == "") ? null : $pkh,
@@ -87,8 +123,66 @@ class SiswaController extends BaseController
                     ->with('validasi', $this->siswaModel->errors());
             }
 
+            // jika hasil fixed dari import
+            // setelah berhasil data dihapus
+            $param_fixed = $this->request->getGet('fixed');
+            $fixed = filter_var($param_fixed, FILTER_VALIDATE_BOOLEAN);
+            if($fixed){
+                $fail_nip = request()->getPost('nip-fail');
+                (new SiswaFailModel())->where('nip', $fail_nip)->delete();
+            }
+
             return redirect()->to('siswa')
                 ->with('success', 'Data Siswa berhasil ditambahkan');
+        }catch(\Exception $e){
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
+    }
+
+    public function update_data(int $id): \CodeIgniter\HTTP\RedirectResponse
+    {
+        $siswa = $this->siswaModel->find($id);
+        if(!isset($siswa)){
+            return redirect()->to('siswa')
+                ->with('error', 'Data tidak ditemukan, proses update dibatalkan');
+        }
+
+        $npsn   = $this->request->getPost('sekolah');
+        $kk     = $this->request->getPost('kk');
+        $pkh    = $this->request->getPost('pkh');
+        $pip    = $this->request->getPost('pip');
+        $nip    = $this->request->getPost('nip');
+        $nama   = $this->request->getPost('nama');
+        $tempat = $this->request->getPost('tempat');
+        $tgl    = $this->request->getPost('tgl');
+        $jk     = $this->request->getPost('jk');
+        $status = $this->request->getPost('status');
+        $alamat = $this->request->getPost('alamat');
+
+        try{
+            $data = [
+                'nip'           => ($nip == "") ? null : $nip,
+                'npsn'          => $npsn,
+                'nomor_kk'      => $kk,
+                'nomor_pkh'     => ($pkh == "") ? null : $pkh,
+                'nomor_pip'     => ($pip == "") ? null : $pip,
+                'nama_siswa'    => $nama,
+                'tempat_lahir'  => $tempat,
+                'tanggal_lahir' => $tgl,
+                'alamat'        => $alamat,
+                'jk'            => $jk,
+                'status'        => $status,
+            ];
+
+            $is_update = $this->siswaModel->update($siswa->idsiswa, $data);
+            if(!$is_update){
+                return redirect()->back()
+                    ->with('validasi', $this->siswaModel->errors());
+            }
+
+            return redirect()->to('siswa')
+                ->with('success', 'Data Siswa berhasil diperbarui');
         }catch(\Exception $e){
             return redirect()->back()
                 ->with('error', $e->getMessage());
@@ -169,7 +263,7 @@ class SiswaController extends BaseController
                         'nomor_pip'     => ($no_pip == '') ? null : $no_pip,
                         'nama_siswa'    => $nama_siswa,
                         'tempat_lahir'  => $tempat_lahir,
-                        'tanggal_lahir' => $tanggal_lahir,
+                        'tanggal_lahir' => Carbon::parse($tanggal_lahir)->toDateString(),
                         'alamat'        => $alamat,
                         'jk'            => $jk,
                         'status'        => $status_warganegara

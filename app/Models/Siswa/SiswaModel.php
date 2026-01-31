@@ -33,7 +33,7 @@ class SiswaModel extends Model
     // Validation
     protected $validationRules      = [
         'nomor_kk'      => 'required|numeric|min_length[16]',
-        'nip'           => 'required|numeric|min_length[10]',
+        'nip'           => 'permit_empty|numeric|min_length[10]',
         'nomor_pkh'     => 'permit_empty|numeric',
         'nomor_pip'     => 'permit_empty|numeric',
         'nama_siswa'    => 'required',
