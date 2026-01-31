@@ -58,6 +58,10 @@ writable/session/*
 !writable/session/index.html
 
 writable/uploads/*
+!writable/uploads/template/
+!writable/uploads/template/form_import_siswa.xlsx
+!writable/uploads/siswa/
+!writable/uploads/siswa/index.html
 !writable/uploads/index.html
 
 writable/debugbar/*
