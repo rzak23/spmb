@@ -189,6 +189,19 @@ class SiswaController extends BaseController
         }
     }
 
+    public function hapus_data(int $id): \CodeIgniter\HTTP\RedirectResponse
+    {
+        $siswa = $this->siswaModel->find($id);
+        if(!isset($siswa)){
+            return redirect()->back()
+                ->with('error', 'Data tidak ditemukan, proses hapus dibatalkan');
+        }
+
+        $this->siswaModel->delete($siswa->idsiswa);
+        return redirect()->back()
+            ->with('success', 'Data berhasil dihapus');
+    }
+
     public function page_import(): string
     {
         helper('form');
