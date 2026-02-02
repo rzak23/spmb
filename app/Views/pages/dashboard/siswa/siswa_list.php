@@ -128,7 +128,7 @@
             autoWidth: false,
             fixedColumns: {
                 leftColumns: 2,  // Freeze kolom Sekolah & NISN
-                rightColumns: 1  // Freeze kolom Action
+                rightColumns: 2  // Freeze kolom Action
             },
             language: {
                 "lengthMenu": "Tampilkan _MENU_ data per halaman",
