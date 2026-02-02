@@ -92,9 +92,11 @@
                                                <a href="<?= site_url('siswa/edit/'.$row->idsiswa) ?>" class="btn btn-sm btn-info">
                                                    <i class="fas fa-edit"></i>
                                                </a>
+                                               <?php if(!session('is_admin')): ?>
                                                <a href="<?= site_url('siswa/hapus/'.$row->idsiswa) ?>" class="btn btn-sm btn-danger">
                                                    <i class="fas fa-trash"></i>
                                                </a>
+                                               <?php endif ?>
                                            </td>
                                        </tr>
                                     <?php endforeach ?>
