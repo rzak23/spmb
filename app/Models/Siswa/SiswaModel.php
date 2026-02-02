@@ -32,7 +32,7 @@ class SiswaModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'nomor_kk'      => 'required|numeric|min_length[16]',
+        'nomor_kk'      => 'permit_empty|numeric|min_length[16]',
         'nisn'          => 'permit_empty|numeric|min_length[10]',
         'nomor_pkh'     => 'permit_empty|numeric',
         'nomor_pip'     => 'permit_empty|numeric',
@@ -40,7 +40,6 @@ class SiswaModel extends Model
     ];
     protected $validationMessages   = [
         'nomor_kk' => [
-            'required' => 'Wajib diisi',
             'numeric' => 'Hanya bisa diisi dengan angka',
             'min_length' => 'Minimal ada 16 karakter'
         ],

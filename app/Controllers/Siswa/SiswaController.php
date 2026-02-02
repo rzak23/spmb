@@ -107,7 +107,7 @@ class SiswaController extends BaseController
             $data = [
                 'nisn'          => ($nisn == "") ? null : $nisn,
                 'npsn'          => $npsn,
-                'nomor_kk'      => $kk,
+                'nomor_kk'      => ($kk == "") ? null : $kk,
                 'nomor_pkh'     => ($pkh == "") ? null : $pkh,
                 'nomor_pip'     => ($pip == "") ? null : $pip,
                 'nama_siswa'    => $nama,
@@ -164,7 +164,7 @@ class SiswaController extends BaseController
             $data = [
                 'nisn'           => ($nisn == "") ? null : $nisn,
                 'npsn'          => $npsn,
-                'nomor_kk'      => $kk,
+                'nomor_kk'      => ($kk == "") ? null : $kk,
                 'nomor_pkh'     => ($pkh == "") ? null : $pkh,
                 'nomor_pip'     => ($pip == "") ? null : $pip,
                 'nama_siswa'    => $nama,
@@ -258,7 +258,7 @@ class SiswaController extends BaseController
                     $data = [
                         'nisn'          => ($nisn == '') ? null : $nisn,
                         'npsn'          => $guru_data->idsekolah,
-                        'nomor_kk'      => $no_kk,
+                        'nomor_kk'      => ($no_kk == '') ? null : $no_kk,
                         'nomor_pkh'     => ($no_pkh == '') ? null : $no_pkh,
                         'nomor_pip'     => ($no_pip == '') ? null : $no_pip,
                         'nama_siswa'    => $nama_siswa,
