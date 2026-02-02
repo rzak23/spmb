@@ -107,7 +107,7 @@ class SiswaController extends BaseController
             $data = [
                 'nisn'          => ($nisn == "") ? null : $nisn,
                 'npsn'          => $npsn,
-                'nomor_kk'      => $kk,
+                'nomor_kk'      => ($kk == "") ? null : $kk,
                 'nomor_pkh'     => ($pkh == "") ? null : $pkh,
                 'nomor_pip'     => ($pip == "") ? null : $pip,
                 'nama_siswa'    => $nama,
@@ -164,7 +164,7 @@ class SiswaController extends BaseController
             $data = [
                 'nisn'           => ($nisn == "") ? null : $nisn,
                 'npsn'          => $npsn,
-                'nomor_kk'      => $kk,
+                'nomor_kk'      => ($kk == "") ? null : $kk,
                 'nomor_pkh'     => ($pkh == "") ? null : $pkh,
                 'nomor_pip'     => ($pip == "") ? null : $pip,
                 'nama_siswa'    => $nama,
@@ -187,6 +187,19 @@ class SiswaController extends BaseController
             return redirect()->back()
                 ->with('error', $e->getMessage());
         }
+    }
+
+    public function hapus_data(int $id): \CodeIgniter\HTTP\RedirectResponse
+    {
+        $siswa = $this->siswaModel->find($id);
+        if(!isset($siswa)){
+            return redirect()->back()
+                ->with('error', 'Data tidak ditemukan, proses hapus dibatalkan');
+        }
+
+        $this->siswaModel->delete($siswa->idsiswa);
+        return redirect()->back()
+            ->with('success', 'Data berhasil dihapus');
     }
 
     public function page_import(): string
@@ -258,7 +271,7 @@ class SiswaController extends BaseController
                     $data = [
                         'nisn'          => ($nisn == '') ? null : $nisn,
                         'npsn'          => $guru_data->idsekolah,
-                        'nomor_kk'      => $no_kk,
+                        'nomor_kk'      => ($no_kk == '') ? null : $no_kk,
                         'nomor_pkh'     => ($no_pkh == '') ? null : $no_pkh,
                         'nomor_pip'     => ($no_pip == '') ? null : $no_pip,
                         'nama_siswa'    => $nama_siswa,
