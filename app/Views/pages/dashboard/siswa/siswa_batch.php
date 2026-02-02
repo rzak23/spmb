@@ -58,7 +58,7 @@
                             <table class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>NIP</th>
+                                    <th>NISN</th>
                                     <th>Nama</th>
                                     <th>Action</th>
                                 </tr>
@@ -66,7 +66,7 @@
                                 <tbody>
                                 <?php foreach($data as $row): ?>
                                 <tr>
-                                    <td><?= $row->nip ?></td>
+                                    <td><?= $row->nisn ?></td>
                                     <td><?= $row->nama_siswa ?></td>
                                     <td class="text-center">
                                         <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#error-detail" onclick="show_error(<?= $row->idfail ?>)">

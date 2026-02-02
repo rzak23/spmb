@@ -65,13 +65,13 @@
                             <div class="row">
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
-                                        <label for="nip">NIP</label>
+                                        <label for="nisn">NISN</label>
                                         <?php if(session()->has('validasi') && isset(session('validasi')['nip'])): ?>
                                         <small class="text-danger"><?= session('validasi')['nip'] ?></small>
                                         <?php endif ?>
-                                        <input type="text" name="nip" class="form-control" id="nip" value="<?= ($mode == 'edit' || $mode == 'fixed') ? $data->nip : ''  ?>" autocomplete="off">
+                                        <input type="text" name="nisn" class="form-control" id="nisn" value="<?= ($mode == 'edit' || $mode == 'fixed') ? $data->nisn : ''  ?>" autocomplete="off">
                                         <?php if($mode == "fixed"): ?>
-                                        <input type="hidden" name="nip-fail" class="form-control" id="nip-fail" value="<?= $data->nip ?>" autocomplete="off" readonly required>
+                                        <input type="hidden" name="nisn-fail" class="form-control" id="nisn-fail" value="<?= $data->nisn ?>" autocomplete="off" readonly required>
                                         <?php endif ?>
                                     </div>
                                 </div>
