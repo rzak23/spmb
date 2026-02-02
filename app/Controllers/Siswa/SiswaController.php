@@ -22,12 +22,16 @@ class SiswaController extends BaseController
         helper('format_string');
         if(!session()->get('is_admin')){
             $guru = auth()->get_guru(session()->get('id'));
-            $siswa = $this->siswaModel->join('tbl_sekolah', 'tbl_sekolah.npsn = tbl_siswa.npsn', 'left')
+            $siswa = $this->siswaModel->select('tbl_siswa.*, tbl_sekolah.sekolah')
+                ->join('tbl_sekolah', 'tbl_sekolah.npsn = tbl_siswa.npsn', 'left')
                 ->where('tbl_siswa.npsn', $guru->idsekolah)
                 ->where('is_verify', 0)
                 ->findAll();
         }else{
-            $siswa = $this->siswaModel->findAll();
+            $siswa = $this->siswaModel->select('tbl_siswa.*, tbl_sekolah.sekolah')
+                ->join('tbl_sekolah', 'tbl_sekolah.npsn = tbl_siswa.npsn', 'left')
+                ->where('is_verify', 0)
+                ->findAll();
         }
 
         $data = [
@@ -92,30 +96,40 @@ class SiswaController extends BaseController
     private function add_data(): \CodeIgniter\HTTP\RedirectResponse
     {
         $npsn   = $this->request->getPost('sekolah');
+        $nik    = $this->request->getPost('nik');
         $kk     = $this->request->getPost('kk');
         $pkh    = $this->request->getPost('pkh');
         $pip    = $this->request->getPost('pip');
         $nisn   = $this->request->getPost('nisn');
         $nama   = $this->request->getPost('nama');
+        $ibu    = $this->request->getPost('ibu-kandung');
         $tempat = $this->request->getPost('tempat');
         $tgl    = $this->request->getPost('tgl');
         $jk     = $this->request->getPost('jk');
         $status = $this->request->getPost('status');
         $alamat = $this->request->getPost('alamat');
+        $desa   = $this->request->getPost('desa');
+        $kab    = $this->request->getPost('kabupaten');
+        $kec    = $this->request->getPost('kecamatan');
 
         try{
             $data = [
                 'nisn'          => ($nisn == "") ? null : $nisn,
                 'npsn'          => $npsn,
+                'nik'           => ($nik == "") ? null : $nik,
                 'nomor_kk'      => ($kk == "") ? null : $kk,
                 'nomor_pkh'     => ($pkh == "") ? null : $pkh,
                 'nomor_pip'     => ($pip == "") ? null : $pip,
                 'nama_siswa'    => $nama,
+                'ibu_kandung'   => $ibu,
                 'tempat_lahir'  => $tempat,
                 'tanggal_lahir' => $tgl,
                 'alamat'        => $alamat,
                 'jk'            => $jk,
                 'status'        => $status,
+                'desa'          => $desa,
+                'kabupaten'     => $kab,
+                'kecamatan'     => $kec
             ];
             $is_save = $this->siswaModel->insert($data);
             if(!$is_save){
@@ -149,30 +163,40 @@ class SiswaController extends BaseController
         }
 
         $npsn   = $this->request->getPost('sekolah');
+        $nik    = $this->request->getPost('nik');
         $kk     = $this->request->getPost('kk');
         $pkh    = $this->request->getPost('pkh');
         $pip    = $this->request->getPost('pip');
         $nisn   = $this->request->getPost('nisn');
         $nama   = $this->request->getPost('nama');
+        $ibu    = $this->request->getPost('ibu-kandung');
         $tempat = $this->request->getPost('tempat');
         $tgl    = $this->request->getPost('tgl');
         $jk     = $this->request->getPost('jk');
         $status = $this->request->getPost('status');
         $alamat = $this->request->getPost('alamat');
+        $desa   = $this->request->getPost('desa');
+        $kab    = $this->request->getPost('kabupaten');
+        $kec    = $this->request->getPost('kecamatan');
 
         try{
             $data = [
-                'nisn'           => ($nisn == "") ? null : $nisn,
+                'nisn'          => ($nisn == "") ? null : $nisn,
                 'npsn'          => $npsn,
+                'nik'           => ($nik == "") ? null : $nik,
                 'nomor_kk'      => ($kk == "") ? null : $kk,
                 'nomor_pkh'     => ($pkh == "") ? null : $pkh,
                 'nomor_pip'     => ($pip == "") ? null : $pip,
                 'nama_siswa'    => $nama,
+                'ibu_kandung'   => $ibu,
                 'tempat_lahir'  => $tempat,
                 'tanggal_lahir' => $tgl,
                 'alamat'        => $alamat,
                 'jk'            => $jk,
                 'status'        => $status,
+                'desa'          => $desa,
+                'kabupaten'     => $kab,
+                'kecamatan'     => $kec
             ];
 
             $is_update = $this->siswaModel->update($siswa->idsiswa, $data);
@@ -258,24 +282,34 @@ class SiswaController extends BaseController
                 // lewatkan baris pertama
                 if($num_row > 1){
                     $nisn               = $row['A'];
-                    $no_kk              = $row['B'];
-                    $no_pkh             = $row['C'];
-                    $no_pip             = $row['D'];
-                    $nama_siswa         = $row['E'];
-                    $tempat_lahir       = $row['F'];
-                    $tanggal_lahir      = $row['G'];
-                    $alamat             = $row['H'];
-                    $jk                 = strtolower($row['I']);
-                    $status_warganegara = strtolower($row['J']);
+                    $nik                = $row['B'];
+                    $no_kk              = $row['C'];
+                    $no_pkh             = $row['D'];
+                    $no_pip             = $row['E'];
+                    $nama_siswa         = $row['F'];
+                    $ibu_kandung        = $row['G'];
+                    $tempat_lahir       = $row['H'];
+                    $tanggal_lahir      = $row['I'];
+                    $alamat             = $row['J'];
+                    $desa               = $row['K'];
+                    $kabupaten          = $row['L'];
+                    $kecamatan          = $row['M'];
+                    $jk                 = strtolower($row['N']);
+                    $status_warganegara = strtolower($row['O']);
 
                     $data = [
+                        'nik'           => ($nik == '') ? null : $nik,
                         'nisn'          => ($nisn == '') ? null : $nisn,
                         'npsn'          => $guru_data->idsekolah,
                         'nomor_kk'      => ($no_kk == '') ? null : $no_kk,
                         'nomor_pkh'     => ($no_pkh == '') ? null : $no_pkh,
                         'nomor_pip'     => ($no_pip == '') ? null : $no_pip,
                         'nama_siswa'    => $nama_siswa,
+                        'ibu_kandung'   => ($ibu_kandung == '') ? null : $ibu_kandung,
                         'tempat_lahir'  => $tempat_lahir,
+                        'desa'          => ($desa == '') ? null : $desa,
+                        'kabupaten'     => ($kabupaten == '') ? null : $kabupaten,
+                        'kecamatan'     => ($kecamatan == '') ? null : $kecamatan,
                         'tanggal_lahir' => Carbon::parse($tanggal_lahir)->toDateString(),
                         'alamat'        => $alamat,
                         'jk'            => $jk,
@@ -292,11 +326,10 @@ class SiswaController extends BaseController
                 $num_row++;
             }
 
-            unlink($file_path);
-
+            unlink($file_path); // hapus file jika import selesai
             $msg = "Data berhasil diimport";
             if($total_fail > 0){
-                $msg = "Data berhasil diimport, namun ada beberapa data yang tidak valid, cek dan perbaiki data yang tidak valid";
+                $msg = "Data berhasil diimport, ada {$total_fail} data tidak valid, cek dan perbaiki data yang tidak valid";
             }
 
             return redirect()->to('siswa/batch')

@@ -16,6 +16,7 @@ class AlterTableSiswaNomorkkCanNull extends Migration
             ]
         ];
         $this->forge->modifyColumn('tbl_siswa', $fields);
+        $this->forge->modifyColumn('tbl_siswa_fail', $fields);
     }
 
     public function down(): void
@@ -28,5 +29,6 @@ class AlterTableSiswaNomorkkCanNull extends Migration
             ]
         ];
         $this->forge->modifyColumn('tbl_siswa', $fields);
+        $this->forge->modifyColumn('tbl_siswa_fail', $fields);
     }
 }

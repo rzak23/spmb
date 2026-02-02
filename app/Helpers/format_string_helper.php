@@ -11,3 +11,15 @@ function status_siswa(int $id): string
 
     return $res;
 }
+
+function nama_jk(string $initial): string
+{
+    $res = "";
+    if($initial == "l"){
+        $res = '<i class="fas fa-male text-primary"></i>';
+    }else if($initial == "p"){
+        $res = '<i class="fas fa-female text-fuchsia"></i>';
+    }
+
+    return $res;
+}
