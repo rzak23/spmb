@@ -51,7 +51,7 @@
                                         <?php if(session()->has('validasi') && isset(session('validasi')['nik'])): ?>
                                         <small class="text-danger"><?= session('validasi')['nik'] ?></small>
                                         <?php endif ?>
-                                        <input type="text" name="nik" class="form-control" id="nik" value="<?= ($mode == 'edit' || $mode == 'fixed') ? $data->nik : '' ?>" autocomplete="off">
+                                        <input type="text" name="nik" class="form-control" id="nik" value="<?= ($mode == 'edit' || $mode == 'fixed') ? $data->nik : '' ?>" autocomplete="off" maxlength="16">
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-12">
@@ -60,7 +60,7 @@
                                         <?php if(session()->has('validasi') && isset(session('validasi')['nomor_kk'])): ?>
                                         <small class="text-danger"><?= session('validasi')['nomor_kk'] ?></small>
                                         <?php endif ?>
-                                        <input type="text" name="kk" class="form-control" id="kk" value="<?= ($mode == 'edit' || $mode == 'fixed') ? $data->nomor_kk : ''  ?>" autocomplete="off" required>
+                                        <input type="text" name="kk" class="form-control" id="kk" value="<?= ($mode == 'edit' || $mode == 'fixed') ? $data->nomor_kk : ''  ?>" autocomplete="off" maxlength="16" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-12">
@@ -182,6 +182,12 @@
                                     <span>Simpan</span>
                                     <i class="fas fa-save"></i>
                                 </button>
+                                <?php if(session('is_admin')): ?>
+                                <a href="" class="btn btn-sm btn-primary">
+                                    <span>Verifikasi</span>
+                                    <i class="fas fa-check"></i>
+                                </a>
+                                <?php endif ?>
                                 <a href="<?= previous_url() ?>" class="btn btn-sm btn-warning">
                                     <span>Batal</span>
                                     <i class="fas fa-times"></i>
