@@ -13,7 +13,7 @@ class SiswaFailModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'nip', 'npsn', 'nomor_kk', 'nomor_pkh', 'nomor_pip', 'nama_siswa', 'tempat_lahir',
+        'nisn', 'npsn', 'nomor_kk', 'nomor_pkh', 'nomor_pip', 'nama_siswa', 'tempat_lahir',
         'tanggal_lahir', 'alamat', 'jk', 'status', 'json_fail'
     ];
 

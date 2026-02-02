@@ -13,7 +13,7 @@ class SiswaModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'nip', 'npsn', 'nomor_kk', 'nomor_pkh', 'nomor_pip', 'nama_siswa', 'tempat_lahir',
+        'nisn', 'npsn', 'nomor_kk', 'nomor_pkh', 'nomor_pip', 'nama_siswa', 'tempat_lahir',
         'tanggal_lahir', 'alamat', 'jk', 'status', 'is_verify', 'siswa_created', 'siswa_updated'
     ];
 
@@ -33,7 +33,7 @@ class SiswaModel extends Model
     // Validation
     protected $validationRules      = [
         'nomor_kk'      => 'required|numeric|min_length[16]',
-        'nip'           => 'permit_empty|numeric|min_length[10]',
+        'nisn'          => 'permit_empty|numeric|min_length[10]',
         'nomor_pkh'     => 'permit_empty|numeric',
         'nomor_pip'     => 'permit_empty|numeric',
         'nama_siswa'    => 'required',
@@ -44,7 +44,7 @@ class SiswaModel extends Model
             'numeric' => 'Hanya bisa diisi dengan angka',
             'min_length' => 'Minimal ada 16 karakter'
         ],
-        'nip' => [
+        'nisn' => [
             'required' => 'Wajib diisi',
             'numeric' => 'Hanya bisa diisi dengan angka',
             'min_length' => 'Minimal ada 10 karakter'

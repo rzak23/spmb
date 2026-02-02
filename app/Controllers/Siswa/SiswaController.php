@@ -95,7 +95,7 @@ class SiswaController extends BaseController
         $kk     = $this->request->getPost('kk');
         $pkh    = $this->request->getPost('pkh');
         $pip    = $this->request->getPost('pip');
-        $nip    = $this->request->getPost('nip');
+        $nisn   = $this->request->getPost('nisn');
         $nama   = $this->request->getPost('nama');
         $tempat = $this->request->getPost('tempat');
         $tgl    = $this->request->getPost('tgl');
@@ -105,7 +105,7 @@ class SiswaController extends BaseController
 
         try{
             $data = [
-                'nip'           => ($nip == "") ? null : $nip,
+                'nisn'          => ($nisn == "") ? null : $nisn,
                 'npsn'          => $npsn,
                 'nomor_kk'      => $kk,
                 'nomor_pkh'     => ($pkh == "") ? null : $pkh,
@@ -128,8 +128,8 @@ class SiswaController extends BaseController
             $param_fixed = $this->request->getGet('fixed');
             $fixed = filter_var($param_fixed, FILTER_VALIDATE_BOOLEAN);
             if($fixed){
-                $fail_nip = request()->getPost('nip-fail');
-                (new SiswaFailModel())->where('nip', $fail_nip)->delete();
+                $fail_nisn = request()->getPost('nisn-fail');
+                (new SiswaFailModel())->where('nisn', $fail_nisn)->delete();
             }
 
             return redirect()->to('siswa')
@@ -152,7 +152,7 @@ class SiswaController extends BaseController
         $kk     = $this->request->getPost('kk');
         $pkh    = $this->request->getPost('pkh');
         $pip    = $this->request->getPost('pip');
-        $nip    = $this->request->getPost('nip');
+        $nisn   = $this->request->getPost('nisn');
         $nama   = $this->request->getPost('nama');
         $tempat = $this->request->getPost('tempat');
         $tgl    = $this->request->getPost('tgl');
@@ -162,7 +162,7 @@ class SiswaController extends BaseController
 
         try{
             $data = [
-                'nip'           => ($nip == "") ? null : $nip,
+                'nisn'           => ($nisn == "") ? null : $nisn,
                 'npsn'          => $npsn,
                 'nomor_kk'      => $kk,
                 'nomor_pkh'     => ($pkh == "") ? null : $pkh,
@@ -244,7 +244,7 @@ class SiswaController extends BaseController
             foreach($sheet as $row){
                 // lewatkan baris pertama
                 if($num_row > 1){
-                    $nip                = $row['A'];
+                    $nisn               = $row['A'];
                     $no_kk              = $row['B'];
                     $no_pkh             = $row['C'];
                     $no_pip             = $row['D'];
@@ -256,7 +256,7 @@ class SiswaController extends BaseController
                     $status_warganegara = strtolower($row['J']);
 
                     $data = [
-                        'nip'           => $nip,
+                        'nisn'          => ($nisn == '') ? null : $nisn,
                         'npsn'          => $guru_data->idsekolah,
                         'nomor_kk'      => $no_kk,
                         'nomor_pkh'     => ($no_pkh == '') ? null : $no_pkh,

@@ -40,7 +40,7 @@
                             <table class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>NIP</th>
+                                    <th>NISN</th>
                                     <th>Siswa</th>
                                     <th>Sekolah</th>
                                     <th>Status</th>
@@ -51,7 +51,7 @@
                                 <tbody>
                                 <?php foreach($data as $row): ?>
                                     <tr>
-                                        <td><?= $row->nip ?></td>
+                                        <td><?= $row->nisn ?></td>
                                         <td><?= $row->nama_siswa ?></td>
                                         <td><?= $row->sekolah ?></td>
                                         <td><?= status_siswa($row->status) ?></td>
