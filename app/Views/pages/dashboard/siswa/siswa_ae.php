@@ -182,7 +182,7 @@
                                     <span>Simpan</span>
                                     <i class="fas fa-save"></i>
                                 </button>
-                                <?php if(session('is_admin')): ?>
+                                <?php if(session('is_admin') && !$data->is_verify): ?>
                                 <a href="<?= site_url('siswa/verifikasi/'.$data->idsiswa) ?>" class="btn btn-sm btn-primary">
                                     <span>Verifikasi</span>
                                     <i class="fas fa-check"></i>

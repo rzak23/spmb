@@ -116,11 +116,11 @@
                                                <?= ($row->is_verify) ? 'Sudah Diverifikasi' : 'Belum Diverifikasi' ?>
                                            </td>
                                            <td class="text-center">
-                                               <a href="<?= site_url('siswa/edit/'.$row->idsiswa) ?>" class="btn btn-sm btn-info">
+                                               <a href="<?= site_url('siswa/edit/'.$row->idsiswa) ?>" class="btn btn-sm btn-info <?= ($row->is_verify) ? 'disabled' : '' ?>">
                                                    <i class="fas fa-edit"></i>
                                                </a>
                                                <?php if(!session('is_admin')): ?>
-                                               <a href="<?= site_url('siswa/hapus/'.$row->idsiswa) ?>" class="btn btn-sm btn-danger">
+                                               <a href="<?= site_url('siswa/hapus/'.$row->idsiswa) ?>" class="btn btn-sm btn-danger <?= ($row->is_verify) ? 'disabled' : '' ?>">
                                                    <i class="fas fa-trash"></i>
                                                </a>
                                                <?php endif ?>
