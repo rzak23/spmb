@@ -8,6 +8,9 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="<?= site_url('dashboard') ?>" class="nav-link">Home</a>
         </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="<?= site_url('profil/ganti-pass') ?>" class="nav-link">Ganti Password</a>
+        </li>
     </ul>
 
     <!-- Right navbar links -->
