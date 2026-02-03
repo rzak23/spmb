@@ -5,6 +5,7 @@ use App\Controllers\Guru\GuruController;
 use App\Controllers\Home;
 use App\Controllers\Kabupaten\KabupatenController;
 use App\Controllers\Kecamatan\KecamatanController;
+use App\Controllers\Profil\ProfilController;
 use App\Controllers\Sekolah\SekolahController;
 use App\Controllers\Siswa\SiswaController;
 use CodeIgniter\Router\RouteCollection;
@@ -76,6 +77,11 @@ $routes->group('siswa', ['filter' => 'auth'], function($routes){
     $routes->get('batch', [SiswaController::class, 'page_import']);
     $routes->get('download-template', [SiswaController::class, 'download_template']);
     $routes->post('proses-batch', [SiswaController::class, 'proses_import']);
+});
+
+$routes->group('profil', ['filter' => 'auth'], function($routes){
+    $routes->get('ganti-pass', [ProfilController::class, 'page_ganti_pass']);
+    $routes->post('update-pass', [ProfilController::class, 'update_pass']);
 });
 
 //----------------------- routes ajax --------------------------------//

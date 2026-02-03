@@ -39,7 +39,7 @@ class AdminModel extends Model
     protected $allowCallbacks = true;
     protected $beforeInsert   = ['hash_pass'];
     protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
+    protected $beforeUpdate   = ['hash_pass'];
     protected $afterUpdate    = [];
     protected $beforeFind     = [];
     protected $afterFind      = [];
