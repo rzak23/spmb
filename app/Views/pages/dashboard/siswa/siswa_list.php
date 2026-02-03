@@ -1,6 +1,7 @@
 <?php
 /**
  * @var object $data
+ * @var bool $filter_verify
  */
 ?>
 <?= $this->extend('layout/dashboard_layout') ?>
@@ -16,15 +17,34 @@
 
     <section class="content">
         <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="card-title">Filter</h6>
+                        </div>
+                        <div class="card-body">
+                            <form method="get" action="<?= site_url('siswa') ?>">
+                                <div class="form-group">
+                                    <label for="filter-verifikasi">Status Verifikasi</label>
+                                    <select name="filter-verifikasi" class="form-control" id="filter-verifikasi">
+                                        <option value="non-verifikasi" <?= (!$filter_verify) ? 'selected' : '' ?>>Belum Verifikasi</option>
+                                        <option value="verifikasi" <?= ($filter_verify) ? 'selected' : '' ?>>Sudah Verifikasi</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <span>Cari</span>
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <?php if(session()->has('error')): ?>
-                    <div class="alert alert-danger"><?= session('error') ?></div>
-                    <?php endif ?>
-
-                    <?php if(session()->has('success')): ?>
-                    <div class="alert alert-success"><?= session('success') ?></div>
-                    <?php endif ?>
                     <div class="card">
                         <div class="card-header">
                             <h6 class="card-title">Daftar Siswa</h6>
@@ -42,6 +62,13 @@
                             <?php endif ?>
                         </div>
                         <div class="card-body">
+                            <?php if(session()->has('error')): ?>
+                                <div class="alert alert-danger"><?= session('error') ?></div>
+                            <?php endif ?>
+
+                            <?php if(session()->has('success')): ?>
+                                <div class="alert alert-success"><?= session('success') ?></div>
+                            <?php endif ?>
                             <div class="table-responsive">
                                 <table id="tableSiswa" class="table table-bordered table-striped nowrap" style="width:100%">
                                     <thead>
@@ -92,9 +119,11 @@
                                                <a href="<?= site_url('siswa/edit/'.$row->idsiswa) ?>" class="btn btn-sm btn-info">
                                                    <i class="fas fa-edit"></i>
                                                </a>
+                                               <?php if(!session('is_admin')): ?>
                                                <a href="<?= site_url('siswa/hapus/'.$row->idsiswa) ?>" class="btn btn-sm btn-danger">
                                                    <i class="fas fa-trash"></i>
                                                </a>
+                                               <?php endif ?>
                                            </td>
                                        </tr>
                                     <?php endforeach ?>
@@ -128,7 +157,7 @@
             autoWidth: false,
             fixedColumns: {
                 leftColumns: 2,  // Freeze kolom Sekolah & NISN
-                rightColumns: 1  // Freeze kolom Action
+                rightColumns: 2  // Freeze kolom Action
             },
             language: {
                 "lengthMenu": "Tampilkan _MENU_ data per halaman",

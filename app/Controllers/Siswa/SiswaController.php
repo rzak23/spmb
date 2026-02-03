@@ -22,20 +22,26 @@ class SiswaController extends BaseController
         helper('format_string');
         if(!session()->get('is_admin')){
             $guru = auth()->get_guru(session()->get('id'));
-            $siswa = $this->siswaModel->select('tbl_siswa.*, tbl_sekolah.sekolah')
+            $siswa_data = $this->siswaModel->select('tbl_siswa.*, tbl_sekolah.sekolah')
                 ->join('tbl_sekolah', 'tbl_sekolah.npsn = tbl_siswa.npsn', 'left')
-                ->where('tbl_siswa.npsn', $guru->idsekolah)
-                ->where('is_verify', 0)
-                ->findAll();
+                ->where('tbl_siswa.npsn', $guru->idsekolah);
         }else{
-            $siswa = $this->siswaModel->select('tbl_siswa.*, tbl_sekolah.sekolah')
-                ->join('tbl_sekolah', 'tbl_sekolah.npsn = tbl_siswa.npsn', 'left')
-                ->where('is_verify', 0)
-                ->findAll();
+            $siswa_data = $this->siswaModel->select('tbl_siswa.*, tbl_sekolah.sekolah')
+                ->join('tbl_sekolah', 'tbl_sekolah.npsn = tbl_siswa.npsn', 'left');
         }
 
+        $filter_verifikasi = $this->request->getGet('filter-verifikasi');
+        $is_verify = 0;
+        if($filter_verifikasi != "" || !empty($filter_verifikasi)){
+            $is_verify = ($filter_verifikasi == "non-verifikasi") ? 0 : 1;
+        }
+
+        $siswa = $siswa_data->where('is_verify', $is_verify)
+            ->findAll();
+
         $data = [
-            'data' => $siswa
+            'data' => $siswa,
+            'filter_verify' => $is_verify
         ];
         return view('pages/dashboard/siswa/siswa_list', $data);
     }
@@ -224,6 +230,31 @@ class SiswaController extends BaseController
         $this->siswaModel->delete($siswa->idsiswa);
         return redirect()->back()
             ->with('success', 'Data berhasil dihapus');
+    }
+
+    public function verifikasi_data(int $id): \CodeIgniter\HTTP\RedirectResponse
+    {
+        $siswa = $this->siswaModel->find($id);
+        if(!isset($siswa)){
+            return redirect()->back()
+                ->with('error', 'Data tidak ditemukan');
+        }
+
+        try{
+            $is_update = $this->siswaModel->update($siswa->idsiswa, [
+                'is_verify' => 1
+            ]);
+            if(!$is_update){
+                return redirect()->back()
+                    ->with('validasi', $this->siswaModel->errors());
+            }
+
+            return redirect()->to('siswa')
+                ->with('success', 'Data siswa telah diverifikasi');
+        }catch(\Exception $e){
+            return redirect()->back()
+                ->with('error', $e->getMessage());
+        }
     }
 
     public function page_import(): string
