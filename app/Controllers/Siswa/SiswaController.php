@@ -133,9 +133,9 @@ class SiswaController extends BaseController
                 'alamat'        => $alamat,
                 'jk'            => $jk,
                 'status'        => $status,
-                'desa'          => $desa,
-                'kabupaten'     => $kab,
-                'kecamatan'     => $kec
+                'desa'          => ($desa == "") ? null : $desa,
+                'kabupaten'     => ($kab == "") ? null : $kab,
+                'kecamatan'     => ($kec == "") ? null : $kec
             ];
             $is_save = $this->siswaModel->insert($data);
             if(!$is_save){
@@ -200,9 +200,9 @@ class SiswaController extends BaseController
                 'alamat'        => $alamat,
                 'jk'            => $jk,
                 'status'        => $status,
-                'desa'          => $desa,
-                'kabupaten'     => $kab,
-                'kecamatan'     => $kec
+                'desa'          => ($desa == "") ? null : $desa,
+                'kabupaten'     => ($kab == "") ? null : $kab,
+                'kecamatan'     => ($kec == "") ? null : $kec
             ];
 
             $is_update = $this->siswaModel->update($siswa->idsiswa, $data);
@@ -312,11 +312,11 @@ class SiswaController extends BaseController
             foreach($sheet as $row){
                 // lewatkan baris pertama
                 if($num_row > 1){
-                    $nisn               = $row['A'];
-                    $nik                = $row['B'];
-                    $no_kk              = $row['C'];
-                    $no_pkh             = $row['D'];
-                    $no_pip             = $row['E'];
+                    $nisn               = (string) $row['A'];
+                    $nik                = (string) $row['B'];
+                    $no_kk              = (string) $row['C'];
+                    $no_pkh             = (string) $row['D'];
+                    $no_pip             = (string) $row['E'];
                     $nama_siswa         = $row['F'];
                     $ibu_kandung        = $row['G'];
                     $tempat_lahir       = $row['H'];
