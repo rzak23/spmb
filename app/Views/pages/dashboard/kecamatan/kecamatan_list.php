@@ -1,6 +1,7 @@
 <?php
 /**
  * @var object $data
+ * @var \CodeIgniter\Pager\Pager $page
  */
 ?>
 
@@ -57,6 +58,9 @@
                                 <?php endforeach ?>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="card-footer clearfix">
+                            <?= $page->links('kecamatan', 'pagination_data') ?>
                         </div>
                     </div>
                 </div>

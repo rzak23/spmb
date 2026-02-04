@@ -17,11 +17,13 @@ class KecamatanController extends BaseController
 
     public function index(): string
     {
-        $kecamatan = $this->kecamatanModel->join('tbl_kabupaten', 'tbl_kecamatan.idkabupaten = tbl_kabupaten.idkabupaten', 'left')
-            ->findAll();
+        $kecamatan = $this->kecamatanModel->select('tbl_kecamatan.*, tbl_kabupaten.kabupaten')
+            ->join('tbl_kabupaten', 'tbl_kecamatan.idkabupaten = tbl_kabupaten.idkabupaten', 'left')
+            ->paginate(10, 'kecamatan');
 
         $data = [
-            'data' => $kecamatan
+            'data' => $kecamatan,
+            'page' => $this->kecamatanModel->pager
         ];
         return view('pages/dashboard/kecamatan/kecamatan_list', $data);
     }
