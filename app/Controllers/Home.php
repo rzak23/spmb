@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Siswa\SiswaModel;
+
 class Home extends BaseController
 {
     public function index(): string
@@ -12,6 +14,14 @@ class Home extends BaseController
 
     public function halaman_dashboard(): string
     {
-        return view('pages/dashboard/index');
+        $siswa_model = new SiswaModel();
+
+        $data = [
+            'total_nonverif'    => $siswa_model->where('is_verify', 0)->countAllResults(),
+            'total_verif'       => $siswa_model->where('is_verify', 1)->countAllResults(),
+            'total_male'        => $siswa_model->where('jk', 'l')->countAllResults(),
+            'total_female'      => $siswa_model->where('jk', 'p')->countAllResults()
+        ];
+        return view('pages/dashboard/index', $data);
     }
 }
