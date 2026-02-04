@@ -17,10 +17,11 @@ class GuruController extends BaseController
 
     public function index(): string
     {
-        $guru = $this->guruModel->findAll();
+        $guru = $this->guruModel->paginate(10, 'guru');
 
         $data = [
-            'data' => $guru
+            'data' => $guru,
+            'page' => $this->guruModel->pager
         ];
         return view('pages/dashboard/guru/guru_list', $data);
     }

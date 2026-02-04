@@ -20,10 +20,11 @@ class SekolahController extends BaseController
         $sekolah = $this->sekolahModel
             ->join('tbl_kabupaten', 'tbl_sekolah.idkabupaten = tbl_kabupaten.idkabupaten', 'left')
             ->join('tbl_kecamatan', 'tbl_sekolah.idkecamatan = tbl_kecamatan.idkecamatan', 'left')
-            ->findAll();
+            ->paginate(10, 'sekolah');
 
         $data = [
-            'data' => $sekolah
+            'data' => $sekolah,
+            'page' => $this->sekolahModel->pager
         ];
         return view('pages/dashboard/sekolah/sekolah_list', $data);
     }

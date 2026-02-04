@@ -1,6 +1,7 @@
 <?php
 /**
  * @var object $data
+ * @var \CodeIgniter\Pager\Pager $page
  */
 ?>
 <?= $this->extend('layout/dashboard_layout') ?>
@@ -58,6 +59,9 @@
                                 <?php endforeach ?>
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="card-footer clearfix">
+                            <?= $page->links('guru', 'pagination_data') ?>
                         </div>
                     </div>
                 </div>
